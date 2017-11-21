@@ -1,4 +1,4 @@
-{-# LANGUAGE FlexibleInstances, ExplicitForAll, ScopedTypeVariables, Rank2Types #-}
+{-# LANGUAGE CPP, FlexibleInstances, ExplicitForAll, ScopedTypeVariables, Rank2Types #-}
 
 module General.Binary(
     BinaryOp(..),
@@ -68,8 +68,10 @@ sizeBuilder (Builder i _) = i
 runBuilder :: Builder -> BS.ByteString
 runBuilder (Builder i f) = unsafePerformIO $ BS.create i $ \ptr -> f ptr 0
 
+#if MIN_VERSION_base(4,9,0)
 instance Semigroup Builder where
     (<>) = mappend
+#endif
 
 instance Monoid Builder where
     mempty = Builder 0 $ \_ _ -> return ()

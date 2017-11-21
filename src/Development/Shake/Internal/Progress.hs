@@ -67,8 +67,10 @@ data Progress = Progress
     }
     deriving (Eq,Ord,Show,Read,Data,Typeable)
 
+#if MIN_VERSION_base(4,9,0)
 instance Semigroup Progress where
     (<>) = mappend
+#endif
 
 instance Monoid Progress where
     mempty = Progress Nothing 0 0 0 0 0 0 0 (0,0)

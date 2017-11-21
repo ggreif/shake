@@ -586,7 +586,11 @@ cmd_ = cmd
 
 -- | The arguments to 'cmd' - see 'cmd' for examples and semantics.
 newtype CmdArgument = CmdArgument [Either CmdOption String]
+#if MIN_VERSION_base(4,9,0)
   deriving (Eq, Semigroup, Monoid, Show)
+#else
+  deriving (Eq, Monoid, Show)
+#endif
 
 -- | The arguments to 'cmd' - see 'cmd' for examples and semantics.
 class CmdArguments t where

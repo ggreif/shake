@@ -1,3 +1,4 @@
+{-# LANGUAGE CPP #-}
 
 -- | List type that supports O(1) amortized 'cons', 'snoc', 'uncons' and 'isEmpty'.
 module General.Bilist(
@@ -19,8 +20,10 @@ isEmpty (Bilist as bs) = null as && null bs
 instance Eq a => Eq (Bilist a) where
     a == b = toList a == toList b
 
+#if MIN_VERSION_base(4,9,0)
 instance Semigroup (Bilist a) where
     (<>) = mappend
+#endif
 
 instance Monoid (Bilist a) where
     mempty = Bilist [] []

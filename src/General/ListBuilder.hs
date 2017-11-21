@@ -1,9 +1,12 @@
+{-# LANGUAGE CPP #-}
 
 module General.ListBuilder(
     ListBuilder, runListBuilder, newListBuilder
     ) where
 
+#if MIN_VERSION_base(4,9,0)
 import Data.Semigroup
+#endif
 import Data.Monoid
 import Prelude()
 
@@ -12,8 +15,10 @@ data ListBuilder a
     | One a
     | Add (ListBuilder a) (ListBuilder a)
 
+#if MIN_VERSION_base(4,9,0)
 instance Semigroup (ListBuilder a) where
     (<>) = mappend
+#endif
 
 instance Monoid (ListBuilder a) where
     mempty = Zero

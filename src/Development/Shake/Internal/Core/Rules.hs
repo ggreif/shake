@@ -1,4 +1,4 @@
-{-# LANGUAGE RecordWildCards, ScopedTypeVariables #-}
+{-# LANGUAGE CPP, RecordWildCards, ScopedTypeVariables #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving, ConstraintKinds #-}
 {-# LANGUAGE ExistentialQuantification, RankNTypes #-}
 {-# LANGUAGE TypeFamilies #-}
@@ -102,8 +102,10 @@ data SRules = SRules
     ,userRules :: !(Map.HashMap TypeRep{-k-} UserRule_)
     }
 
+#if MIN_VERSION_base(4,9,0)
 instance Semigroup SRules where
   (<>) = mappend
+#endif
 
 instance Monoid SRules where
     mempty = SRules mempty Map.empty Map.empty
@@ -115,8 +117,10 @@ instance Monoid SRules where
             fromUnordered (Unordered xs) = xs
             fromUnordered x = [x]
 
+#if MIN_VERSION_base(4,9,0)
 instance Monoid a => Semigroup (Rules a) where
     (<>) = mappend
+#endif
 
 instance Monoid a => Monoid (Rules a) where
     mempty = return mempty
